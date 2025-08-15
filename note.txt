@@ -5,3 +5,8 @@ step 2: face recognisation
 
 for app run:
  t run app.py
+
+System Summary:
+People Trained: Akshita, Anshita, Papa, Mumma (400 samples total)
+Technologies: Python 3.13, OpenCV, Streamlit, KNN Algorithm
+Features: Real-time recognition, voice feedback, attendance tracking, analytics
