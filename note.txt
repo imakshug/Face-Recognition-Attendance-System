@@ -1,0 +1,7 @@
+step 1: collect data
+step 2: face recognisation
+     algo- KNN(k neartest neighbour)
+     avaiable on sci kit ml learn library
+
+for app run:
+ t run app.py
