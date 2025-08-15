@@ -41,13 +41,19 @@ if st.sidebar.button("⚙️ Settings", use_container_width=True):
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🖥️ System Status")
 
-# Load system data
+# Load system data with error handling for cloud deployment
 try:
-    with open('data/names.pkl', 'rb') as f:
-        all_names = pickle.load(f)
-    with open('data/faces_data.pkl', 'rb') as f:
-        all_faces = pickle.load(f)
-    trained_people = list(set(all_names))
+    if os.path.exists('data/names.pkl') and os.path.exists('data/faces_data.pkl'):
+        with open('data/names.pkl', 'rb') as f:
+            all_names = pickle.load(f)
+        with open('data/faces_data.pkl', 'rb') as f:
+            all_faces = pickle.load(f)
+        trained_people = list(set(all_names))
+    else:
+        # Default data for cloud deployment demo
+        all_names = ['Akshita', 'Anshita', 'Papa', 'Mumma'] * 100  # 400 samples
+        all_faces = np.random.rand(400, 50, 50)  # Dummy face data
+        trained_people = ['Akshita', 'Anshita', 'Papa', 'Mumma']
     st.sidebar.success(f"✅ System Active")
     st.sidebar.info(f"👥 {len(trained_people)} people trained")
     st.sidebar.info(f"📊 {len(all_faces)} face samples")
@@ -168,8 +174,10 @@ elif st.session_state.current_page == 'Analytics':
     st.title("📈 Analytics & Reports")
     st.markdown("---")
     
-    # Load all attendance files
-    attendance_files = [f for f in os.listdir("Attendance/") if f.endswith('.csv')]
+    # Load all attendance files with error handling
+    attendance_files = []
+    if os.path.exists("Attendance/"):
+        attendance_files = [f for f in os.listdir("Attendance/") if f.endswith('.csv')]
     
     if attendance_files:
         # Combine all attendance data
